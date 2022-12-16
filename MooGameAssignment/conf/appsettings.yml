@@ -1,0 +1,10 @@
+﻿GameOptions:
+  MooOptions:
+    resultFilePath: mooResult.txt
+    RandomGeneratorMaxValue: 10
+    IsTest: true
+    CorrectGuessResult: BBBB,
+  CloneOptions:
+    resultFilePath: cloneResult.txt
+    RandomGeneratorMaxValue: 100000
+    IsTest: true
