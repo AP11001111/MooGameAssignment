@@ -75,7 +75,7 @@ namespace MooGameAssignment.ServiceLayer.Shared
 
             var key = Console.ReadKey(true).KeyChar.ToString();
 
-            while (!int.TryParse(key, out digit) || digit > (games.Count + 1))
+            while (!int.TryParse(key, out digit) || digit is 0 || digit > (games.Count + 1))
             {
                 key = Console.ReadKey().KeyChar.ToString();
             }

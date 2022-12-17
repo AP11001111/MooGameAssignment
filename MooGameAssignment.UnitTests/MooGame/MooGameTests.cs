@@ -1,9 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using MooGameAssignment.ApplicationLayer;
 using MooGameAssignment.Infrastructure.Options;
-using Moq;
 using System.Reflection;
 using Xunit;
 

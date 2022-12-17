@@ -28,7 +28,7 @@ namespace MooGameAssignment.ServiceLayer
             {
                 await StartChosenGameAsync(GameExtensions.GetGameChoice(options.Games ?? new()));
 
-                if (currentGame is not null)
+                if (CurrentGameType is not null)
                 {
                     await currentGame!.RunAsync();
                     currentGame.Cleanup();
@@ -46,7 +46,10 @@ namespace MooGameAssignment.ServiceLayer
                 case 2:
                     CreateGame<ICloneGameController>();
                     break;
-                case 3:
+
+                // Add future games here
+
+                default:
                     CurrentGameType = null;
                     await host.StopAsync();
                     break;
