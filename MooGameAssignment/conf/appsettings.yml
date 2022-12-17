@@ -1,4 +1,8 @@
-﻿GameOptions:
+﻿GameWrapperOptions:
+  Games:
+    - MooGame
+    - CloneGame
+GameOptions:
   MooOptions:
     resultFilePath: mooResult.txt
     RandomGeneratorMaxValue: 10

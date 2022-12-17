@@ -5,8 +5,9 @@ using MooGameAssignment.ApplicationLayer;
 using MooGameAssignment.Infrastructure.Options;
 using Moq;
 using System.Reflection;
+using Xunit;
 
-namespace MooGameAssignment.UnitTests
+namespace MooGameAssignment.UnitTests.MooGame
 {
     public class MooGameTests
     {
@@ -28,17 +29,34 @@ namespace MooGameAssignment.UnitTests
         {
             var mooGame = GetMooGame();
 
-            MethodInfo? methodInfo = typeof(MooGame).GetMethod("GenerateGoal", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo? methodInfo = typeof(ApplicationLayer.MooGame).GetMethod("GenerateGoal", BindingFlags.NonPublic | BindingFlags.Instance);
             methodInfo?.Invoke(mooGame, null);
 
             mooGame.Goal.Should().HaveLength(4);
         }
 
-        private MooGame GetMooGame()
+        [Theory]
+        [InlineData("1234", "5678", ",")]
+        [InlineData("1234", "1234", "BBBB,")]
+        [InlineData("1234", "1256", "BB,")]
+        [InlineData("1234", "5612", ",CC")]
+        [InlineData("1234", "1562", "B,C")]
+        public void ShouldCorrctlyCheckGuess(string guess, string goal, string result)
+        {
+            var mooGame = GetMooGame();
+            mooGame.Guess = guess;
+            mooGame.Goal = goal;
+
+            var checkResult = mooGame.CheckGuess();
+
+            checkResult.Should().Be(result);
+        }
+
+        private ApplicationLayer.MooGame GetMooGame()
         {
             var host = MockGameWrapper.GetHost();
 
-            return new MooGame(host.Services.GetRequiredService<IOptionsMonitor<GameOptions>>());
+            return new ApplicationLayer.MooGame(host.Services.GetRequiredService<IOptionsMonitor<GameOptions>>());
         }
     }
 }

@@ -1,12 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using MooGameAssignment.ApplicationLayer;
 using MooGameAssignment.Infrastructure.Interfaces;
+using MooGameAssignment.Infrastructure.Options;
+using MooGameAssignment.ServiceLayer.Shared;
 
-namespace MooGameAssignment.ApplicationLayer
+namespace MooGameAssignment.ServiceLayer
 {
     public class GameWrapper : BackgroundService
     {
         private readonly IHost host;
+        private readonly GameWrapperOptions options;
         private IGameController? currentGame;
 
         public static Type? CurrentGameType { get; set; }
@@ -14,13 +19,14 @@ namespace MooGameAssignment.ApplicationLayer
         public GameWrapper(IHost host)
         {
             this.host = host;
+            options = host.Services.GetRequiredService<IOptions<GameWrapperOptions>>().Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await StartChosenGameAsync(GetGameChoice());
+                await StartChosenGameAsync(GameExtensions.GetGameChoice(options.Games ?? new()));
 
                 if (currentGame is not null)
                 {
@@ -30,34 +36,17 @@ namespace MooGameAssignment.ApplicationLayer
             }
         }
 
-        private char GetGameChoice()
-        {
-            Console.WriteLine("Select Game:");
-            Console.WriteLine("1: MooGame");
-            Console.WriteLine("2: CloneGame");
-            Console.WriteLine("3: Exit");
-
-            var c = Console.ReadKey(true).KeyChar;
-            while (!(c.Equals('1') || c.Equals('2') || c.Equals('3')))
-            {
-                c = Console.ReadKey().KeyChar;
-            }
-
-            Console.Clear();
-            return c;
-        }
-
-        private async Task StartChosenGameAsync(char userChoice)
+        private async Task StartChosenGameAsync(int userChoice)
         {
             switch (userChoice)
             {
-                case '1':
+                case 1:
                     CreateGame<IMooGameController>();
                     break;
-                case '2':
+                case 2:
                     CreateGame<ICloneGameController>();
                     break;
-                case '3':
+                case 3:
                     CurrentGameType = null;
                     await host.StopAsync();
                     break;

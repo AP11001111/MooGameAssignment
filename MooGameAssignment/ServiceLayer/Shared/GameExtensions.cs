@@ -60,27 +60,28 @@ namespace MooGameAssignment.ServiceLayer.Shared
             return name;
         }
 
-        //public static void DisplayGuessCheckResult(string result, IConsoleIOService ui)
-        //{
-        //    ui.PutString(result + "\n");
-        //}
+        public static int GetGameChoice(List<string> games)
+        {
+            int digit;
 
-        //public static void GetGuessFromUser(IConsoleIOService ui)
-        //{
-        //    string? guess = ui.GetString();
+            Console.WriteLine("Select Game:");
 
-        //    while (
-        //        (string.IsNullOrWhiteSpace(guess))
-        //        || !(guess.Length is 4)
-        //        || !(int.TryParse(guess, out _)))
-        //    {
-        //        ui.PutString("Invalid input. Guess must 4 digit long.");
-        //        ui.PutString("Try again:\n");
+            for (int i = 0; i < games.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}: {games[i]}");
+            }
 
-        //        guess = ui.GetString();
-        //    }
+            Console.WriteLine($"{games.Count + 1}: Exit");
 
-        //    mooGame.Guess = guess!;
-        //}
+            var key = Console.ReadKey(true).KeyChar.ToString();
+
+            while (!int.TryParse(key, out digit) || digit > (games.Count + 1))
+            {
+                key = Console.ReadKey().KeyChar.ToString();
+            }
+
+            Console.Clear();
+            return digit;
+        }
     }
 }

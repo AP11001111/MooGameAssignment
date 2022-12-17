@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MooGameAssignment.ApplicationLayer;
 using MooGameAssignment.Infrastructure.Options;
+using MooGameAssignment.ServiceLayer;
 
 namespace MooGameAssignment.Repositories
 {

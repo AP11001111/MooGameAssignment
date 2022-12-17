@@ -22,6 +22,7 @@ namespace MooGameAssignment
                     services.AddOptions()
                         .Configure<GameOptions>(typeof(IMooGameController).Name,config.GetRequiredSection("GameOptions:MooOptions"))
                         .Configure<GameOptions>(typeof(ICloneGameController).Name,config.GetRequiredSection("GameOptions:CloneOptions"))
+                        .Configure<GameWrapperOptions>(config.GetRequiredSection("GameWrapperOptions"))
                         .AddTransient<IResultRepository, ResultRepository>()
                         .AddTransient<IResultService, ResultService>()
                         .AddSingleton<IConsoleIOService, ConsoleIOService>()
